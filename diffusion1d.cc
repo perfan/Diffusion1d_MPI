@@ -33,15 +33,16 @@ int main(int argc, char *argv[])
   // Compute derived parameters 
   const int numSteps = int(T/dt + 0.5);  // number of steps to take
   const int N = int(L/dx + 0.5);         // number of grid points
+  const int Nguards = 2;                 // number of guard cells
   const int outputEvery = int(time_between_output/dt + 0.5); // how many steps between output
   const int outputcols = 48;             // number of columns for sparkline output
   
   // Allocate density data 
-  rvector<double> P(N);
+  rvector<double> P(N+Nguards);
 
   // Setup initial conditions for P
   P.fill(0.0);
-  P[N/2] = 1.0;
+  P[N/2+1] = 1.0;  // shift by one for the left guard cell
 
   // Setup initial time
   double time = 0.0;    

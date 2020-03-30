@@ -10,16 +10,20 @@
 void diffusion1d_timestep(rvector<double>& P, double D, double dt, double dx)
 {     
     static rvector<double> laplacian;
-    const int N = P.size();
-    if (laplacian.size() != N) laplacian = rvector<double>(N);
-
-    const double alpha = D*dt/(dx*dx);
-
-    laplacian[0] = P[N-1] + P[1] - 2*P[0];
-    for (int i = 1; i < laplacian.size()-1; i++)
+    const int Nguards = 2;
+    const int Nplusguard = P.size();
+    const int N = Nplusguard - Nguards;    
+    if (laplacian.size() != Nplusguard) laplacian = rvector<double>(Nplusguard);
+    const double alpha = D*dt/(dx*dx);   
+    // fill guard cells for correct periodic boundary conditions
+    const guardleft = 0;
+    const guardright = N+1;
+    P[guardleft] = P[N];
+    P[guardright] = P[1];
+    // compute rhs
+    for (int i = 1; i < N+1; i++)
        laplacian[i] = P[i-1] + P[i+1] - 2*P[i];
-    laplacian[N-1] = P[N-2] + P[0] - 2*P[N-1];
-
-    for (int i = 0; i < laplacian.size(); i++)
+    // apply change
+    for (int i = 1; i < N+1; i++)
        P[i] += alpha*laplacian[i];
 }
