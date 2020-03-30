@@ -26,7 +26,10 @@ void diffusion1d_output_init(std::ofstream& file, std::string datafilename)
   // Start measuring elapsed time
   tt.tick();
   // Some initial output to screen
-  std::cout << "   Step   Time    Walltime(s) Profile"  << std::endl;
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  if (rank == 0)
+      std::cout << "   Step   Time    Walltime(s) Profile"  << std::endl;
 }
 
 void diffusion1d_output(std::ofstream& file, int step, double time, const rvector<double> &P, int outputcols)
@@ -42,11 +45,13 @@ void diffusion1d_output(std::ofstream& file, int step, double time, const rvecto
 
   // First, write rvector to file
   file << time << "\n" << P << "\n\n";
-  // report to screen too
-  std::cout << std::fixed << std::setw(7) << step  << " "
+  // report to screen too (note: mpi_sparkline is a collective procedure)
+  std::string sparks = mpi_sparkline(P, outputcols, 0, MPI_COMM_WORLD, 1, 1, true);
+  if (sparks != "")
+   std::cout<< std::fixed << std::setw(7) << step  << " "
             << std::fixed << std::setprecision(4) << std::setw(8) << time << "   "
             << std::fixed << std::setprecision(4) << std::setw(8) << tt.silent_tock() << "   "
-            << sparkline(P, outputcols, true) << std::endl;
+            << sparks << std::endl;
 }
 
 // Finalize output

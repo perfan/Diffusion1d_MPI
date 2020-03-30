@@ -6,6 +6,7 @@
 // Compile with make using provided Makefile 
 //
 
+#include <mpi.h>
 #include <fstream>
 #include <rarray>
 #include "diffusion1d_output.h"
@@ -15,6 +16,8 @@
 // the main function drives the simulation
 int main(int argc, char *argv[]) 
 {
+  MPI_Init(&argc, &argv);
+
   // Simulation parameters
   double      L;  // system length
   double      D;  // diffusion constant
@@ -36,9 +39,9 @@ int main(int argc, char *argv[])
   const int Nguards = 2;                 // number of guard cells
   const int outputEvery = int(time_between_output/dt + 0.5); // how many steps between output
   const int outputcols = 48;             // number of columns for sparkline output
-  
+  const int Nlocal = N;                  // determine number of point for this MPI process 
   // Allocate density data 
-  rvector<double> P(N+Nguards);
+  rvector<double> P(Nlocal+Nguards);
 
   // Setup initial conditions for P
   P.fill(0.0);
@@ -72,6 +75,7 @@ int main(int argc, char *argv[])
   diffusion1d_output_finish(file);
 
   // All done
+  MPI_Finalize();
   return 0;
 }
   

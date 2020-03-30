@@ -9,6 +9,7 @@
 
 #include <rarray>
 #include <string>
+#include <mpi.h>
 
 /// The sparkline functions produce a one-line string with a graph made
 /// up of (unicode) block characters whose height represents the value
@@ -28,19 +29,36 @@
 /// 
 /// returns: the sparkline string in utf-8 format.
 ///
-std::string sparkline(const rvector<char>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<short>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<int>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<long>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<long long>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<unsigned char>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<unsigned short>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<unsigned int>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<unsigned long>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<unsigned long long>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<float>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<double>& x, int width=-1, bool zero=false);
-std::string sparkline(const rvector<long double>& x, int width=-1, bool zero=false);
+enum { FULLWIDTH = -1 };
+std::string sparkline(const rvector<char>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<short>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<int>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<long>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<long long>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<unsigned char>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<unsigned short>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<unsigned int>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<unsigned long>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<unsigned long long>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<float>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<double>& x, int width, int nskipleft, int nskipright, bool zero);
+std::string sparkline(const rvector<long double>& x, int width, int nskipleft, int nskipright, bool zero);
+// second form
+std::string sparkline(const rvector<char>& x,               int width, char x1,               char x2              );
+std::string sparkline(const rvector<short>& x,              int width, short x1,              short x2             );
+std::string sparkline(const rvector<int>& x,                int width, int x1,                int x2               );
+std::string sparkline(const rvector<long>& x,               int width, long x1,               long x2              );
+std::string sparkline(const rvector<long long>& x,          int width, long long x1,          long long x2         );
+std::string sparkline(const rvector<unsigned char>& x,      int width, unsigned char x1,      unsigned char x2     );
+std::string sparkline(const rvector<unsigned short>& x,     int width, unsigned short x1,     unsigned short x2    );
+std::string sparkline(const rvector<unsigned int>& x,       int width, unsigned int x1,       unsigned int x2      );
+std::string sparkline(const rvector<unsigned long>& x,      int width, unsigned long x1,      unsigned long x2     );
+std::string sparkline(const rvector<unsigned long long>& x, int width, unsigned long long x1, unsigned long long x2);
+std::string sparkline(const rvector<float>& x,              int width, float x1,              float x2             );
+std::string sparkline(const rvector<double>& x,             int width, double x1,             double x2            );
+std::string sparkline(const rvector<long double>& x,        int width, long double x1,        long double x2       );
+
+std::string mpi_sparkline(const rvector<double>& x,             int width, int root, MPI_Comm comm, int nskipleft, int nskipright, bool zero);
 
 ///
 /// The sparkhist functions produce a one-line string with a graph made

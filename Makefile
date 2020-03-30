@@ -3,7 +3,7 @@
 ## Ramses van Zon 2020
 ##
 
-CXX=g++
+CXX=mpicxx
 CXXFLAGS=-O3 -g -march=native -std=c++14
 LDFLAGS=-g
 LD=${CXX}
