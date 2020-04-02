@@ -39,7 +39,7 @@ sparkline.o: sparkline.cc sparkline.h sparkline.h
 
 ##  clean: Remove auto-generated files
 clean:
-	\rm -f ticktock.o diffusion1d.o parameters.o diffusion1d_output.o diffusion1d_timestep.o parameters.o sparkline.o
+	\rm -f ticktock.o diffusion1d.o parameters.o diffusion1d_output.o diffusion1d_timestep.o parameters.o sparkline.o output.dat*
 
 ##  distclean: Remove auto-generated files, executables, and documentation
 distclean: clean

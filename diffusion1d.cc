@@ -13,6 +13,7 @@
 #include "diffusion1d_timestep.h"
 #include "parameters.h"
 #include <iostream>
+#include <string>
 
 // the main function drives the simulation
 int main(int argc, char *argv[]) 
@@ -58,8 +59,9 @@ int main(int argc, char *argv[])
 
   // Setup initial time
   double time = 0.0;    
-
+  
   // Open a file for data output
+  datafile = datafile + std::to_string(rank+1);
   std::ofstream file;
   diffusion1d_output_init(file, datafile);
 

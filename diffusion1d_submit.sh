@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=2
-#SBATCH --cpus-per-task=32
+#SBATCH --ntasks=32
 #SBATCH --time=4:00:00
 #SBATCH --job-name diffusin1dScaling
 #SBATCH --output=run.log
