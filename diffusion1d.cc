@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank); 
   MPI_Comm_size(MPI_COMM_WORLD,&size);
-  std::cout << "Hello from thread number " << rank << " of " << size << "threads"<< std::endl;
 
   // Simulation parameters
   double      L;  // system length
@@ -71,7 +70,7 @@ int main(int argc, char *argv[])
   for (int step = 1; step <= numSteps; step++) {
 
     // Compute next time point
-    diffusion1d_timestep(P, D, dt, dx);
+    diffusion1d_timestep(P, D, dt, dx, rank, size, Nlocal);
 
     // Update time
     time += dt;

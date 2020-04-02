@@ -15,6 +15,6 @@
 /// @param D   the diffusion constant
 /// @param dt  the time step to be used
 /// @param dx  the spatial resolution
-void diffusion1d_timestep(rvector<double>& P, double D, double dt, double dx);
+void diffusion1d_timestep(rvector<double>& P, double D, double dt, double dx, int rank, int size, int Nlocal);
 
 #endif
