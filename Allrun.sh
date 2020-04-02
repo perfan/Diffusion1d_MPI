@@ -1,4 +1,5 @@
 #!/bin/sh
-module load gcc rarray boost
+module load gcc rarray boost openmpi
+export NUM_OF_PROC=2
 make clean
-make run
+make parallel_run

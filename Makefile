@@ -49,6 +49,10 @@ distclean: clean
 run: diffusion1d params.ini
 	./diffusion1d params.ini
 
+##  parallelrun: perallel execute diffusion1d with parameters in params.ini
+parallel_run: diffusion1d params.ini
+	mpirun -n ${NUM_OF_PROC} ./diffusion1d params.ini
+
 ##  doc: use doxygen to generate documentation in latex/refman.pdf
 doc:
 	doxygen -g
