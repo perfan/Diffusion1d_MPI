@@ -18,11 +18,13 @@
 // the main function drives the simulation
 int main(int argc, char *argv[]) 
 {
-  int size;
-  int rank;
-  MPI_Init(&argc, &argv);
-  MPI_Comm_rank(MPI_COMM_WORLD,&rank); 
-  MPI_Comm_size(MPI_COMM_WORLD,&size);
+  // initializing MPI parameters
+  int         size;  // number of process  
+  int         rank;  // id for each process
+
+  MPI_Init(&argc, &argv);               // initializing parallelism
+  MPI_Comm_rank(MPI_COMM_WORLD,&rank);  // computing id for each active process
+  MPI_Comm_size(MPI_COMM_WORLD,&size);  // computing total number of activr process
 
   // Simulation parameters
   double      L;  // system length
@@ -61,7 +63,7 @@ int main(int argc, char *argv[])
   double time = 0.0;    
   
   // Open a file for data output
-  datafile = datafile + std::to_string(rank+1);
+  datafile = datafile + std::to_string(rank+1);  // asigning sepecific number for output file of each process
   std::ofstream file;
   diffusion1d_output_init(file, datafile);
 

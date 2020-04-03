@@ -16,13 +16,15 @@ void diffusion1d_timestep(rvector<double>& P, double D, double dt, double dx, in
 
     if (laplacian.size() != Nplusguard) laplacian = rvector<double>(Nplusguard);
     const double alpha = D*dt/(dx*dx);   
-    // fill guard cells for correct periodic boundary conditions
+    // fill the first and last ghost cells for correct periodic boundary conditions
     int left = rank-1; if(left<0) left = size-1;
     int right = rank+1; if(right>=size) right = 0;
 
+    // determining the first and last cells of each decompsed domain as the ghost cells
     const int guardleft = 0;
     const int guardright = Nlocal+1;
 
+    // Data comminications between each chunk ghost cells
     MPI_Sendrecv(&P[1],1,MPI_DOUBLE,left,11,&P[guardright],1,MPI_DOUBLE,right,11,MPI_COMM_WORLD,MPI_STATUS_IGNORE); 
     MPI_Sendrecv(&P[Nlocal],1, MPI_DOUBLE,right,11,&P[guardleft],1, MPI_DOUBLE,left, 11, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
    
