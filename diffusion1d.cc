@@ -47,7 +47,13 @@ int main(int argc, char *argv[])
   const int Nguards = 2;                 // number of guard cells
   const int outputEvery = int(time_between_output/dt + 0.5); // how many steps between output
   const int outputcols = 48;             // number of columns for sparkline output
-  const int Nlocal = N/size;             // determine number of point for this MPI process 
+        int Nlocal = N/size;             // determine number of point for this MPI process 
+  
+   // treating the cases when N is not divisible by number of cores
+  for(int i=0; i<N - Nlocal*size; i++){
+    if (rank == i) Nlocal += 1;
+  }
+
   // Allocate density data 
   rvector<double> P(Nlocal+Nguards);
 
